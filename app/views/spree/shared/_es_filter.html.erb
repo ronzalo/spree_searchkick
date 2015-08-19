@@ -1,0 +1,15 @@
+<div class="navigation" data-hook="navigation">
+  <h4 class="filter-title"><%= Spree.t("esfilters.#{filter[:name]}") %></h4>
+  <ul class="list-group">
+    <% filter[:options].each do |f| %>
+        <li class="list-group-item">
+          <input type="checkbox"
+                 id="<%= f[:label] %>"
+                 name="search[<%= filter[:name] %>][]"
+                 value="<%= f[:value] %>"
+                  />
+          <label class="nowrap" for="<%= f[:label] %>"> <%= f[:label] %> </label>
+        </li>
+    <% end %>
+  </ul>
+</div>
