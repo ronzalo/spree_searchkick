@@ -7,7 +7,7 @@ module Spree::Search
     def get_base_elasticsearch
       curr_page = page || 1
       query = (keywords.nil? || keywords.empty?) ? "*" : keywords
-      Spree::Product.search(query, where: where_query, facets: facets, smart_facets: true, page: curr_page, per_page: per_page)
+      Spree::Product.search(query, where: where_query, facets: facets, smart_facets: true, order: sorted, page: curr_page, per_page: per_page)
     end
 
     def where_query
@@ -18,6 +18,12 @@ module Spree::Search
       }
       where_query.merge!({taxon_ids: taxon.id}) if taxon
       add_search_filters(where_query)
+    end
+
+    def sorted
+      order_params = {}
+      order_params[:conversions] = :desc if conversions
+      order_params
     end
 
     def facets
@@ -36,13 +42,9 @@ module Spree::Search
       query
     end
 
-    def get_base_scope
-      base_scope = Spree::Product.active
-      base_scope = base_scope.in_taxon(taxon) unless taxon.blank?
-      base_scope = get_products_conditions_for(base_scope, keywords)
-      base_scope = add_search_scopes(base_scope)
-      base_scope = add_eagerload_scopes(base_scope)
-      base_scope
+    def prepare(params)
+      super
+      @properties[:conversions] = params[:conversions]
     end
   end
 end

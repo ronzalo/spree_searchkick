@@ -11,6 +11,7 @@ Spree::Product.class_eval do
       updated_at: updated_at,
       price: price,
       currency: currency,
+      conversions: orders.complete.count,
       taxon_ids: taxon_and_ancestors.map(&:id),
       taxon_names: taxon_and_ancestors.map(&:name)
     }
