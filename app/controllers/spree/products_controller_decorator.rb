@@ -10,4 +10,10 @@ Spree::ProductsController.class_eval do
     @taxonomies = []
     render action: :index
   end
+
+  def autocomplete
+    keywords = params[:keywords] ? params[:keywords] : nil
+    json = Spree::Product.autocomplete(keywords)
+    render json: json
+  end
 end
