@@ -1,0 +1,6 @@
+<!-- insert_bottom 'div.form-group' -->
+<%= f.field_container :filterable, class: ['form-group'] do %>
+  <%= f.label :filterable, Spree.t(:filterable) %> <span class="required">*</span>
+  <%= error_message_on :taxonomy, :filterable, :class => 'error-message' %>
+  <%= check_box :taxonomy, :filterable, :class => 'form-control' %>
+<% end %>
