@@ -6,8 +6,7 @@ module Spree::Search
 
     def get_base_elasticsearch
       curr_page = page || 1
-      query = (keywords.nil? || keywords.empty?) ? "*" : keywords
-      Spree::Product.search(query, where: where_query, facets: facets, smart_facets: true, order: sorted, page: curr_page, per_page: per_page)
+      Spree::Product.search(keyword_query, where: where_query, facets: facets, smart_facets: true, order: sorted, page: curr_page, per_page: per_page)
     end
 
     def where_query
@@ -18,6 +17,10 @@ module Spree::Search
       }
       where_query.merge!({taxon_ids: taxon.id}) if taxon
       add_search_filters(where_query)
+    end
+
+    def keyword_query
+      (keywords.nil? || keywords.empty?) ? "*" : keywords
     end
 
     def sorted
