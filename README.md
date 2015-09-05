@@ -1,7 +1,16 @@
-SpreeSearchkick
+Spree + Searchkick
 ===============
 
-Introduction goes here.
+Add [Elasticsearch](http://elastic.co) goodies to Spree, powered by [searchkick](http://searchkick.org)
+
+Features
+--------
+
+* Full search (keyword, in_taxon)
+* Taxons Filters (facets)
+* Search Autocomplete ([Typeahead](https://twitter.github.io/typeahead.js/))
+* Added `/best` route, where best selling products are boosted in first page
+
 
 Installation
 ------------
@@ -18,6 +27,15 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_searchkick:install
 ```
+
+[Install elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+
+Documentation
+-------------
+
+By default, only the `Spree::Product` class is indexed and to control what data is indexed, override `Spree::Product#search_data` method. Call `Spree::Product.reindex` after changing this method.
+
+To enable or disable taxons filters, go to taxonomy form and change `filterable` boolean.
 
 Testing
 -------
