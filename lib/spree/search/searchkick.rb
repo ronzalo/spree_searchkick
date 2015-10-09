@@ -34,6 +34,9 @@ module Spree::Search
       Spree::Taxonomy.filterable.each do |taxonomy|
         fs << taxonomy.filter_name.to_sym
       end
+      Spree::Property.filterable.each do |property|
+        fs << property.filter_name.to_sym
+      end
       fs
     end
 

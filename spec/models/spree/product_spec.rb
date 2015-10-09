@@ -7,6 +7,7 @@ RSpec.describe Spree::Product, type: :model do
     before do
       product.reindex
       Spree::Product.searchkick_index.refresh
+      Spree::Product.reindex
     end
 
     it "autocomplete by name" do

@@ -1,0 +1,8 @@
+<!-- insert_bottom 'div[data-hook=admin_property_form]' -->
+<div class="col-md-6">
+  <%= f.field_container :filterable, class: ['form-group'] do %>
+    <%= f.label :filterable, Spree.t(:filterable) %> <span class="required">*</span>
+    <%= error_message_on :property, :filterable, :class => 'error-message' %>
+    <%= check_box :property, :filterable, :class => 'form-control' %>
+  <% end %>
+</div>

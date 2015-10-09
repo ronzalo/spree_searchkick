@@ -6,7 +6,12 @@ module Spree
         Spree::Taxonomy.filterable.each do |taxonomy|
           es_filters << self.process_filter(taxonomy.filter_name, :taxon, facets[taxonomy.filter_name])
         end
-        es_filters
+
+        Spree::Property.filterable.each do |property|
+          es_filters << self.process_filter(property.filter_name, :property, facets[property.filter_name])
+        end
+
+        es_filters.uniq
       end
 
       def self.process_filter(name, type, filter)
@@ -24,6 +29,9 @@ module Spree
           ids = filter["terms"].map{|h| h["term"]}
           taxons = Spree::Taxon.where(id: ids).order(name: :asc)
           taxons.each {|t| options << {label: t.name, value: t.id }}
+        when :property
+          values = filter["terms"].map{|h| h["term"]}
+          values.each {|t| options << {label: t, value: t }}
         end
 
         {
