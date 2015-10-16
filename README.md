@@ -15,9 +15,10 @@ Features
 Installation
 ------------
 
-Add spree_searchkick to your Gemfile:
+Add searchkick and spree_searchkick to your Gemfile:
 
 ```ruby
+gem 'searchkick'
 gem 'spree_searchkick'
 ```
 
