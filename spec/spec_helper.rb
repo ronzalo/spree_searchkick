@@ -35,7 +35,7 @@ require 'spree_searchkick/factories'
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
-
+  config.include Devise::TestHelpers, type: :controller
   # Infer an example group's spec type from the file location.
   config.infer_spec_type_from_file_location!
 
@@ -45,7 +45,9 @@ RSpec.configure do |config|
   #
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
+  config.include Spree::TestingSupport::ControllerRequests, type: :controller
   config.include Spree::TestingSupport::UrlHelpers
+  config.include Spree::TestingSupport::AuthorizationHelpers
 
   # == Mock Framework
   #

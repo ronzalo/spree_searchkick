@@ -1,6 +1,7 @@
 Spree::ProductsController.class_eval do
   before_filter :load_taxon, only: [:best_selling]
 
+  # Sort by conversions desc
   def best_selling
     params.merge(taxon: @taxon.id) if @taxon
     @searcher = build_searcher(params.merge(conversions: true))
@@ -17,6 +18,6 @@ Spree::ProductsController.class_eval do
   private
 
   def load_taxon
-    @taxon = Spree::Taxon.friendly.find(params[:id])
+    @taxon = Spree::Taxon.friendly.find(params[:id]) if params[:id]
   end
 end
