@@ -1,19 +1,22 @@
 Spree::ProductsController.class_eval do
+  before_filter :load_taxon, only: [:best_selling]
+
   def best_selling
-    if params[:id]
-      @taxon = Spree::Taxon.find_by!(permalink: params[:id])
-      @searcher = build_searcher(params.merge({conversions: true, taxon: @taxon.try(:id)}))
-    else
-      @searcher = build_searcher(params.merge(conversions: true))
-    end
+    params.merge(taxon: @taxon.id) if @taxon
+    @searcher = build_searcher(params.merge(conversions: true))
     @products = @searcher.retrieve_products
-    @taxonomies = []
     render action: :index
   end
 
   def autocomplete
-    keywords = params[:keywords] ? params[:keywords] : nil
+    keywords = params[:keywords] ||= nil
     json = Spree::Product.autocomplete(keywords)
     render json: json
+  end
+
+  private
+
+  def load_taxon
+    @taxon = Spree::Taxon.friendly.find(params[:id])
   end
 end
