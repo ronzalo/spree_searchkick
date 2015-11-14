@@ -1,8 +1,10 @@
 # encoding: UTF-8
+require File.expand_path("../lib/spree_searchkick/version", __FILE__)
+
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_searchkick'
-  s.version     = '3.0.0'
+  s.version     = SpreeSearchkick::VERSION
   s.summary     = 'Add searchkick to spree'
   s.description = 'Filters, suggests, autocompletes, sortings, searches'
   s.required_ruby_version = '>= 2.0.0'
