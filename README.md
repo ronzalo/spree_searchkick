@@ -1,6 +1,8 @@
 Spree + Searchkick
 ===============
 
+[![Build Status](https://travis-ci.org/ronzalo/spree_searchkick.svg?branch=master)](https://travis-ci.org/ronzalo/spree_searchkick)
+
 Add [Elasticsearch](http://elastic.co) goodies to Spree, powered by [searchkick](http://searchkick.org)
 
 Features
