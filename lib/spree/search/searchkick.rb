@@ -6,7 +6,7 @@ module Spree::Search
 
     def get_base_elasticsearch
       curr_page = page || 1
-      Spree::Product.search(keyword_query, where: where_query, facets: facets, smart_facets: true, order: sorted, page: curr_page, per_page: per_page)
+      Spree::Product.search(keyword_query, where: where_query, aggs: aggregations, smart_aggs: true, order: sorted, page: curr_page, per_page: per_page)
     end
 
     def where_query
@@ -29,7 +29,7 @@ module Spree::Search
       order_params
     end
 
-    def facets
+    def aggregations
       fs = []
       Spree::Taxonomy.filterable.each do |taxonomy|
         fs << taxonomy.filter_name.to_sym

@@ -7,9 +7,9 @@ $(function () {
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     limit: 10,
-    prefetch: '/autocomplete/products.json',
+    prefetch: Spree.mountedAt() + '/autocomplete/products.json',
     remote: {
-      url: '/autocomplete/products.json?keywords=%QUERY',
+      url: Spree.mountedAt() + '/autocomplete/products.json?keywords=%QUERY',
       wildcard: '%QUERY'
     }
   });

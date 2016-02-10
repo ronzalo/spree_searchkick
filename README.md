@@ -7,7 +7,7 @@ Features
 --------
 
 * Full search (keyword, in_taxon)
-* Taxons Filters (facets)
+* Taxons Aggregations (aggs)
 * Search Autocomplete ([Typeahead](https://twitter.github.io/typeahead.js/))
 * Added `/best` route, where best selling products are boosted in first page
 
