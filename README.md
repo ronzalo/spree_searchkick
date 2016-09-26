@@ -21,7 +21,7 @@ Add searchkick and spree_searchkick to your Gemfile:
 
 ```ruby
 gem 'searchkick'
-gem 'spree_searchkick', github: 'ronzalo/spree_searchkick', branch: '3-0-stable'
+gem 'spree_searchkick', github: 'ronzalo/spree_searchkick', branch: '3-1-stable'
 ```
 
 Bundle your dependencies and run the installation generator:
