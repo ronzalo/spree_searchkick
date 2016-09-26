@@ -33,9 +33,23 @@ Spree::Product.class_eval do
 
   def self.autocomplete(keywords)
     if keywords
-      Spree::Product.search(keywords, autocomplete: true, limit: 10).map(&:name).map(&:strip).uniq
+      Spree::Product.search(
+        keywords,
+        autocomplete: true,
+        limit: 10, where: search_where
+      ).map(&:name).map(&:strip).uniq
     else
-      Spree::Product.search('*').map(&:name).map(&:strip)
+      Spree::Product.search(
+        '*',
+        where: search_where
+      ).map(&:name).map(&:strip)
     end
+  end
+
+  def self.search_where
+    {
+      active: true,
+      price: { not: nil }
+    }
   end
 end
