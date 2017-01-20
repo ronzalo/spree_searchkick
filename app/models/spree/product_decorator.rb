@@ -35,12 +35,17 @@ Spree::Product.class_eval do
     if keywords
       Spree::Product.search(
         keywords,
-        autocomplete: true,
-        limit: 10, where: search_where
+        match: :word_start,
+        limit: 10,
+        load: false,
+        misspellings: {below: 3},
+        where: search_where
       ).map(&:name).map(&:strip).uniq
     else
       Spree::Product.search(
         '*',
+        load: false,
+        misspellings: {below: 3},
         where: search_where
       ).map(&:name).map(&:strip)
     end

@@ -1,16 +1,13 @@
 require 'spec_helper'
+require 'pry'
 
 RSpec.describe Spree::Product, type: :model do
   describe 'searches' do
     let(:product) { create(:product) }
 
-    before do
-      product.reindex
-      Spree::Product.reindex
-    end
-
     it 'autocomplete by name' do
-      keyword = product.name[0..3]
+      keyword = product.name[0..6]
+      Spree::Product.reindex
       expect(Spree::Product.autocomplete(keyword)).to eq([product.name.strip])
     end
 
@@ -18,7 +15,8 @@ RSpec.describe Spree::Product, type: :model do
       let(:product) { create(:product, available_on: nil) }
 
       it 'does not return them in autocomplete' do
-        keyword = product[0..3]
+        keyword = product.name[0..6]
+        Spree::Product.reindex
         expect(Spree::Product.autocomplete(keyword)).to eq([])
       end
     end
@@ -29,7 +27,8 @@ RSpec.describe Spree::Product, type: :model do
       end
 
       it 'does not return them in autocomplete' do
-        keyword = product[0..3]
+        keyword = product.name[0..6]
+        Spree::Product.reindex
         expect(Spree::Product.autocomplete(keyword)).to eq([])
       end
     end
