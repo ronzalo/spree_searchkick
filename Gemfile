@@ -5,6 +5,6 @@ gem 'spree', github: 'spree/spree', branch: '3-1-stable'
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '3-1-stable'
 
 # Provides searchkick functionalities for testing
-gem 'searchkick', '>= 1.2'
+gem 'searchkick', '>= 2.1.1'
 
 gemspec
