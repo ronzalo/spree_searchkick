@@ -1,5 +1,5 @@
 Spree::Product.class_eval do
-  searchkick word_start: [:name]
+  searchkick word_start: [:name], settings: {number_of_replicas: 0}
 
   def search_data
     json = {
