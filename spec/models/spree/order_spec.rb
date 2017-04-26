@@ -7,6 +7,7 @@ RSpec.describe Spree::Order, type: :model do
 
       before(:each) do
         Spree::Product.searchkick_index.refresh
+        Spree::Product.reindex
       end
 
       it 'reindex order items after transition to complete' do
