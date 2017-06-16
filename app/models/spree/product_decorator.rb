@@ -35,6 +35,7 @@ Spree::Product.class_eval do
     if keywords
       Spree::Product.search(
         keywords,
+        fields: [:name],
         match: :word_start,
         limit: 10,
         load: false,
@@ -44,6 +45,7 @@ Spree::Product.class_eval do
     else
       Spree::Product.search(
         '*',
+        fields: [:name],
         load: false,
         misspellings: {below: 3},
         where: search_where
