@@ -9,6 +9,7 @@ module Spree
         curr_page = page || 1
         Spree::Product.search(
           keyword_query,
+          fields: Spree::Product.search_fields,
           where: where_query,
           aggs: aggregations,
           smart_aggs: true,
@@ -29,7 +30,7 @@ module Spree
       end
 
       def keyword_query
-        (keywords.nil? || keywords.empty?) ? '*' : keywords
+        keywords.nil? || keywords.empty? ? '*' : keywords
       end
 
       def sorted

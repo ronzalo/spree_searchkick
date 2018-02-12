@@ -4,11 +4,11 @@ module Spree
       def self.applicable_filters(aggregations)
         es_filters = []
         Spree::Taxonomy.filterable.each do |taxonomy|
-          es_filters << self.process_filter(taxonomy.filter_name, :taxon, aggregations[taxonomy.filter_name])
+          es_filters << process_filter(taxonomy.filter_name, :taxon, aggregations[taxonomy.filter_name])
         end
 
         Spree::Property.filterable.each do |property|
-          es_filters << self.process_filter(property.filter_name, :property, aggregations[property.filter_name])
+          es_filters << process_filter(property.filter_name, :property, aggregations[property.filter_name])
         end
 
         es_filters.uniq
@@ -18,20 +18,20 @@ module Spree
         options = []
         case type
         when :price
-          min = filter["buckets"].min {|a,b| a["key"] <=> b["key"] }
-          max = filter["buckets"].max {|a,b| a["key"] <=> b["key"] }
-          if min && max
-            options = {min: min["key"].to_i, max: max["key"].to_i, step: 100}
-          else
-            options = {}
-          end
+          min = filter['buckets'].min_by { |a| a['key'] }
+          max = filter['buckets'].max_by { |a| a['key'] }
+          options = if min && max
+                      { min: min['key'].to_i, max: max['key'].to_i, step: 100 }
+                    else
+                      {}
+                    end
         when :taxon
-          ids = filter["buckets"].map{|h| h["key"]}
+          ids = filter['buckets'].map { |h| h['key'] }
           taxons = Spree::Taxon.where(id: ids).order(name: :asc)
-          taxons.each {|t| options << {label: t.name, value: t.id }}
+          taxons.each { |t| options << { label: t.name, value: t.id } }
         when :property
-          values = filter["buckets"].map{|h| h["key"]}
-          values.each {|t| options << {label: t, value: t }}
+          values = filter['buckets'].map { |h| h['key'] }
+          values.each { |t| options << { label: t, value: t } }
         end
 
         {
@@ -39,11 +39,10 @@ module Spree
           type: type,
           options: options
         }
-
       end
 
       def self.aggregation_term(aggregation)
-        aggregation["buckets"].sort_by { |hsh| hsh["key"] }
+        aggregation['buckets'].sort_by { |hsh| hsh['key'] }
       end
     end
   end

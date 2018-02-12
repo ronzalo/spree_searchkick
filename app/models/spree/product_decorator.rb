@@ -1,5 +1,13 @@
 Spree::Product.class_eval do
-  searchkick word_start: [:name]
+  searchkick word_start: [:name], settings: { number_of_replicas: 0 } unless respond_to?(:searchkick_index)
+
+  def self.autocomplete_fields
+    [:name]
+  end
+
+  def self.search_fields
+    [:name]
+  end
 
   def search_data
     json = {
@@ -35,17 +43,19 @@ Spree::Product.class_eval do
     if keywords
       Spree::Product.search(
         keywords,
+        fields: autocomplete_fields,
         match: :word_start,
         limit: 10,
         load: false,
-        misspellings: {below: 3},
+        misspellings: { below: 3 },
         where: search_where
       ).map(&:name).map(&:strip).uniq
     else
       Spree::Product.search(
         '*',
+        fields: autocomplete_fields,
         load: false,
-        misspellings: {below: 3},
+        misspellings: { below: 3 },
         where: search_where
       ).map(&:name).map(&:strip)
     end
