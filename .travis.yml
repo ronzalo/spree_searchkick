@@ -1,11 +1,11 @@
 language: ruby
 rvm:
-  - 2.1
-  - 2.2
+  - 2.3
+  - 2.4
 addons:
   apt:
     sources:
-      - elasticsearch-2.x
+      - elasticsearch-6.x
     packages:
     - elasticsearch
 services:
