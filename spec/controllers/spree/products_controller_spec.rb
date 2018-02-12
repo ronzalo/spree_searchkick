@@ -6,7 +6,6 @@ RSpec.describe Spree::ProductsController, type: :controller do
     let(:order) { create(:completed_order_with_totals) }
 
     context 'when empty taxon' do
-
       it 'get from all products sort by conversions desc' do
         order.reindex_order_products
         spree_get :best_selling
@@ -16,7 +15,7 @@ RSpec.describe Spree::ProductsController, type: :controller do
 
     context 'when best by taxon' do
       let(:taxon) { create(:taxon) }
-      let(:regular_product) { create(:product, name: 'regular', taxons: [taxon])}
+      let(:regular_product) { create(:product, name: 'regular', taxons: [taxon]) }
 
       before(:each) do
         @product = order.products.sample
@@ -44,6 +43,5 @@ RSpec.describe Spree::ProductsController, type: :controller do
         expect(assigns(:products)).to be_a(Searchkick::Results)
       end
     end
-
   end
 end

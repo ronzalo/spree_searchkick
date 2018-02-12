@@ -1,5 +1,5 @@
 Spree::ProductsController.class_eval do
-  before_filter :load_taxon, only: [:best_selling]
+  before_action :load_taxon, only: [:best_selling]
 
   # Sort by conversions desc
   def best_selling
