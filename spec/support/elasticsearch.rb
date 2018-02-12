@@ -6,6 +6,23 @@ RSpec.configure do |config|
 
     config.after(:suite) { stop_elastic_cluster }
   end
+
+  SEARCHABLE_MODELS = [Spree::Product].freeze
+
+  # create indices for searchable models
+  config.before do
+    SEARCHABLE_MODELS.each do |model|
+      model.reindex
+      model.searchkick_index.refresh
+    end
+  end
+
+  # delete indices for searchable models to keep clean state between tests
+  config.after do
+    SEARCHABLE_MODELS.each do |model|
+      model.searchkick_index.delete
+    end
+  end
 end
 
 def start_elastic_cluster
