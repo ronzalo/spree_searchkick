@@ -33,7 +33,7 @@ def start_elastic_cluster
   ENV['ELASTICSEARCH_URL'] = "http://localhost:#{ENV['TEST_CLUSTER_PORT']}"
 
   return if Elasticsearch::Extensions::Test::Cluster.running?
-  Elasticsearch::Extensions::Test::Cluster.start(timeout: 10)
+  Elasticsearch::Extensions::Test::Cluster.start(timeout: 30)
 end
 
 def stop_elastic_cluster
