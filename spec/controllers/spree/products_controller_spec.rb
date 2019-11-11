@@ -8,7 +8,7 @@ RSpec.describe Spree::ProductsController, type: :controller do
     context 'when empty taxon' do
       it 'get from all products sort by conversions desc' do
         order.reindex_order_products
-        spree_get :best_selling
+        get :best_selling
         expect(assigns(:products)).to be_a(Searchkick::Results)
       end
     end
@@ -26,20 +26,18 @@ RSpec.describe Spree::ProductsController, type: :controller do
 
       it 'sort by conversions desc' do
         order.reindex_order_products
-        spree_get :best_selling, id: taxon
+        get :best_selling, params: { id: taxon }
 
         expect(assigns(:products).map(&:name)).to eq [@product.name, 'regular']
       end
 
       it 'get same products qty' do
-        spree_get :best_selling, id: taxon
-
+        get :best_selling, params: { id: taxon }
         expect(assigns(:products).count).to eq(2)
       end
 
       it 'return a Searchkick::Results' do
-        spree_get :best_selling, id: taxon
-
+        get :best_selling, params: { id: taxon }
         expect(assigns(:products)).to be_a(Searchkick::Results)
       end
     end

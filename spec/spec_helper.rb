@@ -31,7 +31,7 @@ require 'spree/testing_support/factories'
 require 'spree/testing_support/url_helpers'
 
 # Requires factories defined in lib/spree_searchkick/factories.rb
-require 'spree_searchkick/factories'
+# require 'spree_searchkick/factories'
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods

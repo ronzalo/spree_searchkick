@@ -1,12 +1,43 @@
-Spree::Product.class_eval do
-  searchkick word_start: [:name], settings: { number_of_replicas: 0 } unless respond_to?(:searchkick_index)
+module Spree::ProductDecorator
+  def self.prepended(base)
+    base.searchkick word_start: [:name], settings: { number_of_replicas: 0 } unless respond_to?(:searchkick_index)
 
-  def self.autocomplete_fields
-    [:name]
-  end
+    def base.autocomplete_fields
+      [:name]
+    end
 
-  def self.search_fields
-    [:name]
+    def base.search_fields
+      [:name]
+    end
+
+    def base.autocomplete(keywords)
+      if keywords
+        Spree::Product.search(
+          keywords,
+          fields: autocomplete_fields,
+          match: :word_start,
+          limit: 10,
+          load: false,
+          misspellings: { below: 3 },
+          where: search_where,
+        ).map(&:name).map(&:strip).uniq
+      else
+        Spree::Product.search(
+          "*",
+          fields: autocomplete_fields,
+          load: false,
+          misspellings: { below: 3 },
+          where: search_where,
+        ).map(&:name).map(&:strip)
+      end
+    end
+
+    def base.search_where
+      {
+        active: true,
+        price: { not: nil },
+      }
+    end
   end
 
   def search_data
@@ -20,7 +51,7 @@ Spree::Product.class_eval do
       currency: currency,
       conversions: orders.complete.count,
       taxon_ids: taxon_and_ancestors.map(&:id),
-      taxon_names: taxon_and_ancestors.map(&:name)
+      taxon_names: taxon_and_ancestors.map(&:name),
     }
 
     Spree::Property.all.each do |prop|
@@ -37,33 +68,6 @@ Spree::Product.class_eval do
   def taxon_by_taxonomy(taxonomy_id)
     taxons.joins(:taxonomy).where(spree_taxonomies: { id: taxonomy_id })
   end
-
-  def self.autocomplete(keywords)
-    if keywords
-      Spree::Product.search(
-        keywords,
-        fields: autocomplete_fields,
-        match: :word_start,
-        limit: 10,
-        load: false,
-        misspellings: { below: 3 },
-        where: search_where
-      ).map(&:name).map(&:strip).uniq
-    else
-      Spree::Product.search(
-        '*',
-        fields: autocomplete_fields,
-        load: false,
-        misspellings: { below: 3 },
-        where: search_where
-      ).map(&:name).map(&:strip)
-    end
-  end
-
-  def self.search_where
-    {
-      active: true,
-      price: { not: nil }
-    }
-  end
 end
+
+Spree::Product.prepend(Spree::ProductDecorator)

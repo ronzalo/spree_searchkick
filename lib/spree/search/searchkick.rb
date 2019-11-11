@@ -15,7 +15,7 @@ module Spree
           smart_aggs: true,
           order: sorted,
           page: curr_page,
-          per_page: per_page
+          per_page: per_page,
         )
       end
 
@@ -23,14 +23,14 @@ module Spree
         where_query = {
           active: true,
           currency: current_currency,
-          price: { not: nil }
+          price: { not: nil },
         }
         where_query[:taxon_ids] = taxon.id if taxon
         add_search_filters(where_query)
       end
 
       def keyword_query
-        keywords.nil? || keywords.empty? ? '*' : keywords
+        keywords.nil? || keywords.empty? ? "*" : keywords
       end
 
       def sorted
