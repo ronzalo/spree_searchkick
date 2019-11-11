@@ -11,6 +11,12 @@ module SpreeSearchkick
       g.test_framework :rspec
     end
 
+    config.before_initialize do
+      ActiveSupport.on_load :action_controller do
+        ActionController::Base.send :helper, SpreeSearchkick::ProductsHelper
+      end
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)

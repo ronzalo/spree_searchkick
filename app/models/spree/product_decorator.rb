@@ -1,6 +1,6 @@
 module Spree::ProductDecorator
   def self.prepended(base)
-    base.searchkick word_start: [:name], settings: { number_of_replicas: 0 } unless respond_to?(:searchkick_index)
+    base.searchkick word_start: [:name], settings: { number_of_replicas: 0 } unless base.respond_to?(:searchkick_index)
 
     def base.autocomplete_fields
       [:name]
