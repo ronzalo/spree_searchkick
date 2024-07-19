@@ -1,2 +1,2 @@
 ---
-BUNDLE_JOBS: 8
+BUNDLE_JOBS: "4"
